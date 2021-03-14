@@ -1,0 +1,58 @@
+Schema::create('tabela_localizacao', function (Blueprint $table) {
+            $table->id();
+            $table->string('pais');
+            $table->string('provincia');
+            $table->string('municipio');
+            $table->string('bairro');
+            $table->timestamps();
+        });
+
+
+        Schema::create('tabela_cliente_servico', function (Blueprint $table) {
+
+            $table->integer('id_cliente')->unsigned();
+
+            $table->foreign('id_cliente')->references('id')->on('tabela_cliente')->onDelete('cascade');
+
+
+            $table->integer('id_servico')->unsigned();
+            $table->foreign('id_servico')->references('id')->on('tabela_servico')->onDelete('cascade');
+
+            $table->timestamps();
+        });
+
+ Schema::create('tabela_pedido', function (Blueprint $table) {
+            $table->id();
+            $table->decimal('preco');
+            $table->timestamps();
+        });
+
+
+
+Schema::create('tabela_tipo_pedido', function (Blueprint $table) {
+            $table->id();
+            $table->string('tipo_pedido');
+            $table->timestamps();
+        });
+
+
+        Schema::create('tabela_cliente', function (Blueprint $table) {
+            $table->id();
+            $table->string('nome_empresa');
+            $table->string('nif')->unique;
+            $table->string('email');
+            $table->string('telefone');
+            $table->string('logo');
+            $table->integer('id_localizacao')->unsigned();
+            $table->foreign('id_localizacao')->references('id')->on('tabela_localizacao')->onDelete('cascade');
+            $table->timestamps();
+        });
+
+
+         Schema::create('tabela_servico', function (Blueprint $table) {
+            $table->id();
+            $table->string('nome');
+            $table->string('taxa');
+            $table->string('descricao');
+            $table->timestamps();
+        });

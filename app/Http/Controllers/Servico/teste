@@ -1,0 +1,70 @@
+<?php
+
+namespace App\Http\Controllers\Servico;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Servico\ServicoModel;
+use App\Http\Requests\HomeRequest;
+
+class ServicoController extends Controller
+{
+
+    public function index()
+    {
+        $servicos = ServicoModel::all();
+        return response()->json($servicos);
+    }
+
+    public function novo()
+    {
+        return view('painel.servico.novo');
+    }
+
+
+    public function store(Request $request)
+    {
+        $servicos = new ServicoModel();
+
+        $validatedData = $request->validate([
+            'nome' => 'required',
+            'taxa' => 'required',
+            'descricao' => 'required'
+
+        ]);
+
+        $servicos->nome = $request->input('nome');
+        $servicos->taxa = $request->input('taxa');
+        $servicos->descricao = $request->input('descricao');
+
+        $servicos->save();
+        return response()->json($servicos);
+    }
+
+    public function show($id)
+    {
+        $servicos = new ServicoModel();
+        $servicos = ServicoModel::findOrFail($id);
+        return response()->json($servicos);
+    }
+    public function update(Request $request, $id)
+    {
+
+        $servicos = new ServicoModel();
+        $servicos = ServicoModel::findOrFail($id);
+        $servicos->nome = $request->input('nome');
+        $servicos->taxa = $request->input('taxa');
+        $servicos->descricao = $request->input('descricao');
+
+        $servicos->save();
+        return response()->json($servicos);
+    }
+
+    public function delete($id)
+    {
+        $servicos = ServicoModel::findOrFail($id);
+        if ($servicos->delete()) {
+            return response()->json($servicos);
+        }
+    }
+}*/
